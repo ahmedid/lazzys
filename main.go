@@ -57,8 +57,10 @@ func (s *Server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	if len(headers) != 0 {
 		for _, header := range headers {
-			kv := strings.Split(header, ":")
-			w.Header().Set(kv[0], kv[1])
+			kv := strings.SplitN(header, ":", 2)
+			if len(kv) == 2 {
+				w.Header().Set(kv[0], kv[1])
+			}
 		}
 	}
 	w.WriteHeader(*cflag)
